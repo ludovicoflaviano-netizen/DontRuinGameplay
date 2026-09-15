@@ -1,16 +1,12 @@
-# ProjectileGuard
-# Player-shot projectiles are marked using PersistentDataContainer, so the
-# protection survives chunk unload/reload and server restarts when the entity itself persists.
+# ProjectileGuard - Paper/Spigot 1.21.11
+# Only projectiles shot by players are protected.
+# Dropped Item entities are intentionally NOT touched.
 
-# How often loaded protected projectiles are checked. Lower values are more aggressive.
-check-interval-ticks: 10
-
-# Keep protected projectiles alive after they have been launched.
-# Natural despawn is blocked; normal hit/explosion/pickup behavior is unchanged.
+check-interval-ticks: 1
 prevent-natural-despawn: true
+prevent-plugin-removal: true
+adopt-existing-player-projectiles: true
 
-# Projectiles launched by players that should be protected.
-# EntityType names must match Bukkit/Paper EntityType values.
 protected-projectiles:
   - ARROW
   - SPECTRAL_ARROW
@@ -26,8 +22,8 @@ protected-projectiles:
   - EGG
   - ENDER_PEARL
   - EXPERIENCE_BOTTLE
-  - POTION
+  - SPLASH_POTION
   - LINGERING_POTION
-  - FIREWORK
+  - FIREWORK_ROCKET
   - LLAMA_SPIT
   - SHULKER_BULLET
