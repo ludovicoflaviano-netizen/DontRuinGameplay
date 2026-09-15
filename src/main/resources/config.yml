@@ -1,0 +1,33 @@
+# ProjectileGuard
+# Player-shot projectiles are marked using PersistentDataContainer, so the
+# protection survives chunk unload/reload and server restarts when the entity itself persists.
+
+# How often loaded protected projectiles are checked. Lower values are more aggressive.
+check-interval-ticks: 10
+
+# Keep protected projectiles alive after they have been launched.
+# Natural despawn is blocked; normal hit/explosion/pickup behavior is unchanged.
+prevent-natural-despawn: true
+
+# Projectiles launched by players that should be protected.
+# EntityType names must match Bukkit/Paper EntityType values.
+protected-projectiles:
+  - ARROW
+  - SPECTRAL_ARROW
+  - TRIDENT
+  - FIREBALL
+  - SMALL_FIREBALL
+  - LARGE_FIREBALL
+  - DRAGON_FIREBALL
+  - WITHER_SKULL
+  - WIND_CHARGE
+  - BREEZE_WIND_CHARGE
+  - SNOWBALL
+  - EGG
+  - ENDER_PEARL
+  - EXPERIENCE_BOTTLE
+  - POTION
+  - LINGERING_POTION
+  - FIREWORK
+  - LLAMA_SPIT
+  - SHULKER_BULLET

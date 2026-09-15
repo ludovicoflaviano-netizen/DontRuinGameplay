@@ -1,0 +1,16 @@
+name: ProjectileGuard
+version: ${version}
+main: dev.projectileguard.ProjectileGuardPlugin
+api-version: '1.21.11'
+author: ludovicoflaviano-netizen
+description: Prevents player-shot projectiles from naturally despawning.
+commands:
+  projectileguard:
+    description: Reload ProjectileGuard configuration.
+    usage: /projectileguard reload
+    aliases: [pg]
+    permission: projectileguard.admin
+permissions:
+  projectileguard.admin:
+    description: Allows reloading ProjectileGuard.
+    default: op
