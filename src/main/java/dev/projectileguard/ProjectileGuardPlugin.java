@@ -3,15 +3,15 @@ package dev.projectileguard;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.entity.EntityRemoveEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,6 +34,11 @@ public final class ProjectileGuardPlugin extends JavaPlugin implements Listener 
         saveDefaultConfig();
         loadSettings();
         getServer().getPluginManager().registerEvents(this, this);
+
+        if (getCommand("projectileguard") != null) {
+            getCommand("projectileguard").setExecutor(new ProjectileGuardCommand(this));
+        }
+
         startProtectionTask();
         getLogger().info("ProjectileGuard enabled for " + protectedTypes.size() + " projectile types.");
     }
@@ -69,8 +74,6 @@ public final class ProjectileGuardPlugin extends JavaPlugin implements Listener 
                         continue;
                     }
 
-                    // Paper exposes lifetime control for arrows/tridents. Resetting it
-                    // prevents the vanilla arrow-age despawn while keeping normal physics.
                     if (entity instanceof AbstractArrow arrow) {
                         arrow.setLifetimeTicks(0);
                     }
@@ -98,19 +101,12 @@ public final class ProjectileGuardPlugin extends JavaPlugin implements Listener 
         }
     }
 
-    /**
-     * Reassert protection after an entity is loaded from a chunk.
-     * The marker is stored on the projectile itself, so no in-memory list is required.
-     */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityRemove(EntityRemoveEvent event) {
         if (!preventNaturalDespawn || !isProtected(event.getEntity())) {
             return;
         }
 
-        // EntityRemoveEvent is monitoring-only in Paper. We intentionally do not try to
-        // modify/cancel it. A plugin explicitly removing an entity cannot be overridden
-        // safely from this event. Natural despawn is prevented by lifetime management.
         if (event.getCause() == EntityRemoveEvent.Cause.PLUGIN) {
             getLogger().fine("Another plugin removed a protected projectile: " + event.getEntity().getUniqueId());
         }
