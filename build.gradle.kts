@@ -2,10 +2,10 @@ plugins {
     java
 }
 
-group = "dev.projectileguard"
+group = "dev.dontruingameplay"
 version = "1.0.0"
 
-description = "Keeps player-shot projectiles from naturally despawning on Paper 1.21.11"
+description = "Protects player-shot projectiles from natural despawning without affecting dropped items."
 
 repositories {
     mavenCentral()
@@ -23,10 +23,4 @@ java {
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
     options.release.set(21)
-}
-
-processResources {
-    filesMatching("plugin.yml") {
-        expand("version" to project.version)
-    }
 }

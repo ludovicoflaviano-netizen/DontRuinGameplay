@@ -1,27 +1,26 @@
-# ProjectileGuard
+# DontRuinGameplay
 
-Paper 1.21.11 plugin that protects player-shot projectiles from natural despawning and recovers them if another plugin removes them.
+Paper 1.21.11 plugin that protects player-shot projectiles from natural despawning while leaving dropped item entities completely alone.
 
-Dropped Item entities are not protected.
+## What it does
 
-## Protection
-
-Only projectiles whose shooter is a Player are marked. The marker is stored in the projectile's PersistentDataContainer, so it survives chunk saving and server restarts when the entity itself is saved.
-
-Arrows, spectral arrows, and tridents use Paper's AbstractArrow lifetime API and are continuously reset to lifetime 0. Other configured projectile types are made persistent and are recovered when Paper reports a DESPAWN or PLUGIN removal.
-
-Normal projectile lifecycle is preserved: HIT, EXPLODE, PICKUP, and other intentional consumption/removal causes are not restored. Wind Charges therefore still explode normally after collision.
+- Marks projectiles shot by players with persistent data.
+- Keeps protected projectiles persistent through chunk saving/loading.
+- Continuously resets `AbstractArrow` lifetime so arrows, spectral arrows, and tridents do not naturally age out.
+- Detects existing player-shot projectiles when the plugin starts.
+- Can recover a protected projectile if another plugin removes it with a `DESPAWN` or `PLUGIN` removal cause.
+- Does not restore normal projectile lifecycle events such as `HIT`, `EXPLODE`, `PICKUP`, `OUT_OF_WORLD`, or chunk `UNLOAD`.
+- Does not touch dropped `Item` entities.
+- Wind Charges still explode normally when they hit something; the plugin does not cancel or change their normal hit behavior.
 
 ## Important API limitation
 
-Paper's EntityRemoveEvent exposes a PLUGIN cause, but the event is not cancellable. A Bukkit/Paper plugin therefore cannot stop another plugin's remove() call before it happens using that event. ProjectileGuard immediately recreates protected projectiles after DESPAWN/PLUGIN removal instead. Fully preventing arbitrary NMS/server-level removal would require version-specific server internals.
-
-## Commands
-
-`/projectileguard reload`
-
-Permission: `projectileguard.admin`
+Paper exposes `EntityRemoveEvent` as a monitoring event rather than a cancellable event. DontRuinGameplay therefore restores a protected projectile after a `PLUGIN` or natural `DESPAWN` removal when recovery is enabled instead of pretending it can cancel another plugin's `remove()` call.
 
 ## Build
 
-Java 21 + Paper API 1.21.11.
+Requires Java 21 and Paper API 1.21.11.
+
+```text
+gradle build --no-daemon
+```

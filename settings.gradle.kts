@@ -1,1 +1,1 @@
-rootProject.name = "ProjectileGuard"
+rootProject.name = "DontRuinGameplay"

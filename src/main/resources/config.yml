@@ -1,10 +1,10 @@
-# ProjectileGuard - Paper/Spigot 1.21.11
-# Only projectiles shot by players are protected.
-# Dropped Item entities are intentionally NOT touched.
+# DontRuinGameplay - Paper 1.21.11
+# Only projectiles whose shooter is a player are protected.
+# Dropped Item entities are never modified by this plugin.
 
-check-interval-ticks: 1
+scan-interval-ticks: 1
 prevent-natural-despawn: true
-prevent-plugin-removal: true
+recover-plugin-removal: true
 adopt-existing-player-projectiles: true
 
 protected-projectiles:
@@ -27,3 +27,4 @@ protected-projectiles:
   - FIREWORK_ROCKET
   - LLAMA_SPIT
   - SHULKER_BULLET
+  - FISHING_BOBBER

@@ -15,8 +15,9 @@ jobs:
           java-version: '21'
           cache: gradle
       - uses: gradle/actions/setup-gradle@v4
-      - run: gradle build --no-daemon
+      - name: Build
+        run: gradle build --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: ProjectileGuard
+          name: DontRuinGameplay
           path: build/libs/*.jar
